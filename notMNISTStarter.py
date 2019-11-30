@@ -1,10 +1,3 @@
-#For Google Collab
-#try:
-#  # %tensorflow_version only exists in Colab.
-#  %tensorflow_version 2.x
-#except Exception:
-#  pass
-
 import tensorflow as tf
 import numpy as np
 from tensorflow_core.python.keras import regularizers
@@ -22,15 +15,18 @@ print("--Make model--")
 model = tf.keras.models.Sequential([
   tf.keras.layers.Flatten(input_shape=(28, 28)),
   tf.keras.layers.Dense(256, activation='relu'),
+  tf.keras.layers.Dropout(0.4),
   tf.keras.layers.Dense(128, activation='relu'),
-  tf.keras.layers.Dense(64, activation='relu'),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.LeakyReLU(alpha=0.1),
+  tf.keras.layers.Dropout(0.2),
   tf.keras.layers.Dense(10, activation='softmax')
 ])
 
-model.compile(optimizer='sgd', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer='adamax', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 
 print("--Fit model--")
-model.fit(x_train, y_train, epochs=15, verbose=2)
+model.fit(x_train, y_train, epochs=20, verbose=2)
 
 print("--Evaluate model--")
 model_loss, model_acc = model.evaluate(x_test,  y_test, verbose=2)
