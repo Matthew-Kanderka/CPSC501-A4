@@ -78,12 +78,8 @@ def create_ds(dataframe, batch_size=1):
 
 model = tf.keras.Sequential([
     preprocessing_layer,
-    tf.keras.layers.Dense(256, kernel_regularizer=regularizers.l2(0.001), activation = 'relu'),
-    tf.keras.layers.Dropout(0.5),
-    tf.keras.layers.Dense(128, kernel_regularizer=regularizers.l2(0.001), activation = 'relu'),
-    tf.keras.layers.Dropout(0.5),
-    tf.keras.layers.Dense(64, kernel_regularizer=regularizers.l2(0.001), activation = 'relu'),
-    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dense(256, activation = 'relu'),
+    tf.keras.layers.Dense(128, activation = 'relu'),
     tf.keras.layers.Dense(1, activation='sigmoid')
     ])
     
