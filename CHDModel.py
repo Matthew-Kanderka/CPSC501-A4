@@ -15,7 +15,7 @@ TEST_DATA_PATH = "heart_test.csv"
 df = pd.read_csv("heart.csv")
 rng = RandomState()
 
-train = df.sample(frac=0.7, random_state=rng)
+train = df.sample(frac=0.80, random_state=rng)
 test = df.loc[~df.index.isin(train.index)]
 
 train.to_csv("heart_train.csv", index=False)
@@ -78,13 +78,15 @@ def create_ds(dataframe, batch_size=1):
 
 model = tf.keras.Sequential([
     preprocessing_layer,
-    tf.keras.layers.Dense(256, activation = 'relu'),
-    tf.keras.layers.Dense(128, activation = 'relu'),
+    tf.keras.layers.Dense(16, kernel_regularizer=regularizers.l2(0.01), activation = 'elu'),
+    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dense(16, kernel_regularizer=regularizers.l2(0.01), activation = 'elu'),
+    tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Dense(1, activation='sigmoid')
     ])
     
 
-model.compile(optimizer='adam',
+model.compile(optimizer='adamax',
                 loss='binary_crossentropy',
                 metrics=['accuracy'])
 
